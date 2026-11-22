@@ -1,4 +1,5 @@
 import {mountMural,positionCrop} from './mural.js';
+import {mountDashboard} from './dashboard.js';
 const siteBase='/project-up';
 const viewPath=path=>path.slice(siteBase.length).replace(/(?:\/index\.html|\.html|\/)$/g,'')||'/';
 const exhibitMural=mountMural(document.querySelector('[data-mural="exhibit"]'));
@@ -22,7 +23,7 @@ document.addEventListener('click',event=>{
   const link=event.target.closest('a[href]');
   if(!link||event.defaultPrevented||event.button!==0||event.metaKey||event.ctrlKey||event.shiftKey||event.altKey||link.target||link.hasAttribute('download'))return;
   const url=new URL(link.href);
-  if(url.origin!==location.origin||!url.pathname.startsWith(siteBase+'/')||!projectViews.has(viewPath(url.pathname)))return;
+  if(url.searchParams.has('panel')||url.origin!==location.origin||!url.pathname.startsWith(siteBase+'/')||!projectViews.has(viewPath(url.pathname)))return;
   event.preventDefault();
   if(url.href!==location.href)history.pushState(null,'',url);
   showProjectView();
@@ -36,7 +37,8 @@ const form=$('#registration'), board=$('#board'), detail=$('#detail'), rankings=
 const ranks=['1st Request — My Favorite Panel','2nd Request — My Backup Choice',"3rd Request — Another Panel I'd Love to Paint"];
 const requests=[null,null,null];
 let panels=[],focused=null;
-const open=p=>p.status==='AVAILABLE'||p.status==='REQUESTED';
+const open=p=>p.paintingStatus==='Open';
+const paintingClass={Open:'available',Claimed:'assigned',Completed:'complete'};
 const option=(value,text)=>new Option(text,value);
 function element(tag,text,cls){
   const node=document.createElement(tag);node.textContent=text;
@@ -53,11 +55,11 @@ function render(){
   const active=document.activeElement?.dataset?.panel;
   board.replaceChildren();
   for(const p of panels){
-    const tile=element('button','',`tile ${p.status.toLowerCase()}`);tile.type='button';
+    const tile=element('button','',`tile ${paintingClass[p.paintingStatus]}`);tile.type='button';
     tile.dataset.panel=p.id;
-    tile.setAttribute('aria-label',`${p.id}, ${p.type.toLowerCase()}, ${p.status.toLowerCase()}`);
+    tile.setAttribute('aria-label',`${p.id}, ${p.type.toLowerCase()}, ${p.paintingStatus}`);
     tile.setAttribute('aria-pressed',String(focused===p.id));
-    tile.title=`${p.id} · ${p.status}`;
+    tile.title=`${p.id} · ${p.paintingStatus}`;
     const rank=requests.indexOf(p.id);
     if(rank>=0)tile.append(element('span',rank+1,'rank'));
     tile.addEventListener('click',()=>{
@@ -79,7 +81,7 @@ function render(){
   const p=panels.find(p=>p.id===focused);
   if(!p)return;
   const rank=requests.indexOf(p.id);
-  detail.replaceChildren(element('strong',`${p.id} · ${p.type}`),' ',element('span',p.status,`tag ${p.status.toLowerCase()}`),
+  detail.replaceChildren(element('strong',`${p.id} · ${p.type}`),' ',element('span',p.paintingStatus,`tag ${paintingClass[p.paintingStatus]}`),
     element('p',`Artwork: ${p.description||'Description pending'} · Complexity: ${p.complexity||'Pending'}`),
     element('p',rank>=0?`Selected as request ${rank+1}.`:open(p)?'Use a preference menu below to replace a choice.':'Unavailable for new requests.'));
   const zoom=element('button','Enlarge panel','outline');
@@ -123,6 +125,12 @@ async function refresh(){
   if(!response.ok)throw Error('Could not load the mural board.');
   const data=await response.json();
   panels=data.panels.sort((a,b)=>a.row-b.row||a.column-b.column);
+  const requested=new URLSearchParams(location.search).get('panel');
+  if(viewPath(location.pathname)==='/register'&&panels.some(p=>p.id===requested&&open(p))){
+    focused=requested;
+    requests[0]=requested;
+  }
+  mountDashboard(document.querySelector('.progress-dashboard'),panels);
   const chosen=exhibitSelect.value||examplePanel;
   exhibitSelect.replaceChildren(...panels.map(p=>option(p.id,p.id+(p.id===examplePanel?' · Fabrication example':''))));
   exhibitSelect.value=chosen;
@@ -130,6 +138,8 @@ async function refresh(){
   render();
 }
 
-refresh().catch(error=>{detail.textContent=error.message;});
+refresh().catch(error=>{detail.textContent=error.message;document.querySelector('.progress-error').textContent=error.message;});
 form.addEventListener('submit',event=>event.preventDefault());
+
+
 
