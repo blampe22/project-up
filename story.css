@@ -1,0 +1,9 @@
+.keepsake{max-width:48rem;margin-inline:auto}
+.keepsake article,.keepsake section{margin-block:2.5rem}
+.keepsake p{line-height:1.65}
+.conversation{display:grid;gap:.9rem;list-style:none;padding:0;margin-block:1.35rem}
+.conversation li{max-width:85%;padding:.85rem 1rem;border:1px solid #cba568;border-radius:1rem;background:#fff8e9;color:#172b43}
+.conversation li:nth-child(even){justify-self:end;background:#192f48;color:#fff8e9}
+.conversation .speaker{margin:0 0 .25rem;font-size:.85rem;font-weight:700}
+.conversation blockquote{margin:0;line-height:1.55;overflow-wrap:anywhere}
+@media(max-width:480px){.conversation li{max-width:94%}.keepsake h1{overflow-wrap:anywhere}}
