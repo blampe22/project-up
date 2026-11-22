@@ -92,3 +92,6 @@ body[data-project-view=schedule] .qc-home-copy,body[data-project-view=schedule] 
 @media(min-width:641px) and (max-height:780px){
  body[data-project-view=home] .qc-home{padding-block:1rem;row-gap:1rem}
 }
+
+.painting-guide{margin-top:1rem}.painting-guide summary{cursor:pointer;font-weight:750;padding:.6rem 0}.painting-guide li+li{margin-top:.4rem}.signup-preview-notice{border-left:3px solid #ad7725;padding-left:.75rem}body[data-project-view=panels] .signup-preview-notice{display:none}
+@media(max-width:360px){.qc-home .progress-art{width:min(100%, max(208px,34vh))}}
