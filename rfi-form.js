@@ -1,4 +1,4 @@
-import {bindEmailForm} from './email-forms.js?v=qc03-test1';
+import {bindEmailForm} from './email-forms.js?v=qc03-live1';
 
 bindEmailForm(document.querySelector('#rfi-form'), {
   prepare(fields) {

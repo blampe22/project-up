@@ -1,10 +1,8 @@
-// Public Web3Forms routing IDs. Ordinary routes stay closed until commissioning is confirmed.
+// Public Web3Forms routing IDs for the two Project UP forms.
 const formIds = {
   "registration": "84a3786a-e867-49dd-8860-6bd49be34957",
   "rfi-form": "dbf3c7e9-53a0-4b17-852e-2a359d705961"
 };
-const publicSubmissions = false;
-const commissioning = new URLSearchParams(location.search).get('commissioning') === 'qc03';
 const endpoint = 'https://api.web3forms.com/submit';
 
 export function bindEmailForm(form, {prepare, success, afterSuccess}) {
@@ -12,7 +10,7 @@ export function bindEmailForm(form, {prepare, success, afterSuccess}) {
   const unavailable = form.closest('section')?.querySelector('[data-form-unavailable]') ?? form.querySelector('[data-form-unavailable]');
   const status = form.querySelector('[data-email-status]');
   const formId = formIds[form.id];
-  if (!formId || (!publicSubmissions && !commissioning)) return;
+  if (!formId) return;
   fields.disabled = false;
   if (unavailable) unavailable.hidden = true;
   let state = 'ready';
@@ -42,7 +40,6 @@ export function bindEmailForm(form, {prepare, success, afterSuccess}) {
       report(error.message);
       return;
     }
-    if (commissioning) payload.subject = '[TEST — DO NOT ACTION] ' + payload.subject;
     payload = Object.fromEntries(Object.entries(payload).filter(([, value]) => value));
     state = 'sending';
     fields.disabled = true;
