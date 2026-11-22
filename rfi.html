@@ -1,30 +1,31 @@
 <!doctype html><html lang="en"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1"><title>Submit an RFI | Project UP</title>
-<link rel="stylesheet" href="/project-up/style.css"></head>
+<link rel="stylesheet" href="/project-up/style.css"><script type="module" src="/project-up/rfi-form.js?v=qc03-test1"></script></head>
 <body>
 <header class="mast"><a class="brand" href="/project-up/"><span class="emblem" aria-hidden="true">↑</span><span>PROJECT UP <small>Adventure Begins at Home</small></span></a><a class="outline" href="/project-up/">Back to Project UP</a></header>
 <main><section class="section rfi-page" aria-labelledby="rfi-title">
 <p class="eyebrow">UP-001 · Document control</p><h1 id="rfi-title">REQUEST FOR INFORMATION (RFI)</h1>
 <p><em>For questions, clarifications, and matters the Project Architect probably should have addressed in the drawings.</em></p>
-<p class="rfi-notice">RFI submissions are unavailable until a private inbox is configured.</p>
-<form id="rfi-form" method="post" action="/project-up/api/rfi">
-<fieldset aria-describedby="rfi-privacy" disabled>
+<p class="rfi-notice" data-form-unavailable>RFI submissions are unavailable until a private inbox is configured.</p>
+<form id="rfi-form" method="post">
+<fieldset aria-describedby="rfi-privacy" disabled data-email-fields>
 <legend>Your inquiry</legend>
 <div class="fields">
 <label>Name <input name="name" required maxlength="100" autocomplete="name"></label>
-<label>Email address for a response (optional) <input name="email" type="email" maxlength="254" autocomplete="email"></label>
-<label class="wide">Question / Request for Information <textarea name="question" required maxlength="2500" rows="6"></textarea></label>
+<label>Reply Email (optional) <input name="email" type="email" maxlength="254" autocomplete="email"></label>
+<label class="wide">Subject <input name="topic" required maxlength="150"></label>
+<label class="wide">Question / Comment <textarea name="question" required maxlength="2500" rows="6"></textarea></label>
 </div>
-<div hidden aria-hidden="true"><label>Leave this blank <input name="website" tabindex="-1" autocomplete="off"></label></div>
-<p id="rfi-privacy">Only provide details needed for your inquiry. Your name, question and reply address are private.</p>
-<button class="button" type="submit" disabled>Submit RFI</button>
+<div hidden aria-hidden="true"><label>Leave this unchecked <input type="checkbox" name="botcheck" tabindex="-1" autocomplete="off"></label></div>
+<p id="rfi-privacy">Only provide details needed for your inquiry. Your inquiry and any optional reply address are forwarded to Ben by email.</p>
+<button class="button" type="submit">Submit RFI</button>
 </fieldset>
-<p id="rfi-error" role="alert" tabindex="-1"></p>
+<p id="rfi-error" role="status" tabindex="-1" data-email-status></p>
 </form>
 <noscript><p>Enable JavaScript to send the form and receive confirmation.</p></noscript>
 <section id="rfi-confirmation" hidden tabindex="-1">
-<h2>RFI Successfully Submitted</h2>
-<p>Your inquiry has been forwarded to the Project Architect.</p>
+<h2>Thanks for the RFI</h2>
+
 <p>Response times may vary due to fabrication activities, Owner directives, and impending fatherhood.</p>
 <p><em>Please note: RFIs requesting additional scope may be subject to review by the Owner.</em></p>
 <a class="outline" href="/project-up/">Back to Project UP</a>
@@ -32,5 +33,6 @@
 </section></main>
 <footer class="footer"><span>Project UP · For Auggie &amp; Theo</span></footer>
 </body></html>
+
 
 

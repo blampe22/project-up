@@ -1,5 +1,6 @@
 import {mountMural,positionCrop} from './mural.js';
 import {mountDashboard} from './dashboard.js';
+import {bindEmailForm} from './email-forms.js?v=qc03-test1';
 const siteBase='/project-up';
 const viewPath=path=>path.slice(siteBase.length).replace(/(?:\/index\.html|\.html|\/)$/g,'')||'/';
 const exhibitMural=mountMural(document.querySelector('[data-mural="exhibit"]'));
@@ -23,7 +24,7 @@ document.addEventListener('click',event=>{
   const link=event.target.closest('a[href]');
   if(!link||event.defaultPrevented||event.button!==0||event.metaKey||event.ctrlKey||event.shiftKey||event.altKey||link.target||link.hasAttribute('download'))return;
   const url=new URL(link.href);
-  if(url.searchParams.has('panel')||url.origin!==location.origin||!url.pathname.startsWith(siteBase+'/')||!projectViews.has(viewPath(url.pathname)))return;
+  if(viewPath(location.pathname)==='/register'||viewPath(url.pathname)==='/register'||url.origin!==location.origin||!url.pathname.startsWith(siteBase+'/')||!projectViews.has(viewPath(url.pathname)))return;
   event.preventDefault();
   if(url.href!==location.href)history.pushState(null,'',url);
   showProjectView();
@@ -34,6 +35,7 @@ const receiptMural=mountMural(document.querySelector('[data-mural="requests"]'))
 document.querySelectorAll('[data-mural]:not([data-mural="requests"]):not([data-mural="exhibit"])').forEach(mountMural);
 const $=selector=>document.querySelector(selector);
 const form=$('#registration'), board=$('#board'), detail=$('#detail'), rankings=$('#rankings');
+const selectedPanels=form.querySelector('[data-selected-panels]');
 const ranks=['1st Request — My Favorite Panel','2nd Request — My Backup Choice',"3rd Request — Another Panel I'd Love to Paint"];
 const requests=[null,null,null];
 let panels=[],focused=null;
@@ -52,6 +54,7 @@ const selects=ranks.map((rank,i)=>{
   label.append(select);rankings.append(label);return select;
 });
 function render(){
+  if(selectedPanels)selectedPanels.textContent='Selected panels: '+(requests.filter(Boolean).join(', ')||'None yet.');
   const active=document.activeElement?.dataset?.panel;
   board.replaceChildren();
   for(const p of panels){
@@ -136,6 +139,16 @@ async function refresh(){
   exhibitSelect.value=chosen;
   renderExhibit();
   render();
+  if(selectedPanels)bindEmailForm(form,{
+    prepare(fields){
+      const ids=[...new Set(requests.filter(id=>panels.some(p=>p.id===id&&open(p))))];
+      if(!ids.length)throw Error('Choose at least one Open panel from the mural or the preference menus.');
+      return {subject:'Project UP — Family Painting Sign-Up', name:fields.name, email:fields.email,
+        'Selected panels':ids.join(', '), 'Junior Painter Names':fields.junior,
+        'Comments, Concerns, or Unsolicited Opinions':fields.ideas};
+    },
+    success:'Your panel request was accepted for delivery to Ben. Panel assignments are subject to his confirmation.'
+  });
 }
 
 refresh().catch(error=>{detail.textContent=error.message;document.querySelector('.progress-error').textContent=error.message;});
