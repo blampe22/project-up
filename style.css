@@ -95,3 +95,7 @@ body[data-project-view=schedule] .qc-home-copy,body[data-project-view=schedule] 
 
 .painting-guide{margin-top:1rem}.painting-guide summary{cursor:pointer;font-weight:750;padding:.6rem 0}.painting-guide li+li{margin-top:.4rem}.signup-preview-notice{border-left:3px solid #ad7725;padding-left:.75rem}body[data-project-view=panels] .signup-preview-notice{display:none}
 @media(max-width:360px){.qc-home .progress-art{width:min(100%, max(208px,34vh))}}
+
+.qc-home-actions{grid-column:1/-1;display:grid;gap:.4rem}.home-rfi{justify-self:center;min-height:44px;display:inline-flex;align-items:center;font-weight:750}.adventure-chapter{margin:1.15rem 0}.owner-message{margin:1rem 0 1.25rem}.party-session{margin-top:1.2rem;padding-top:.8rem;border-top:1px solid var(--line)}.trailer-entry+.trailer-entry{margin-top:2rem;padding-top:1.1rem;border-top:1px solid var(--line)}
+@media(max-width:640px){body[data-project-view=home] .qc-home .progress-art{width:min(100%,max(200px,29vh))}.qc-home-actions .home-rfi{font-size:.85rem;padding:.25rem .7rem}.qc-home .dashboard-title{display:none}}
+body[data-project-view=story] .painting-party{display:none}

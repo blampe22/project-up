@@ -77,7 +77,7 @@
     root.innerHTML='<p class="gantt-revision">'+baseline.revision+' · Data date '+dated.format(stamp(baseline.dataDate))+
       ' · Horizon '+dated.format(first)+' – '+dated.format(end)+'</p>'+
       '<p>Two projects. One growing family. And a Project Architect who apparently cannot resist creating a construction schedule.</p>'+
-      '<div class="gantt-scroll" role="region" aria-label="Master project timeline, scroll horizontally to see all weeks" tabindex="0">'+
+      '<div class="gantt-scroll" role="region" aria-label="Master project timeline" tabindex="0">'+
       '<table class="gantt-table"><colgroup><col class="gantt-activity-col"><col class="gantt-meta-col" span="3"><col></colgroup>'+
       '<thead><tr><th scope="col">WBS / Activity</th><th scope="col">Start</th><th scope="col">Finish</th><th scope="col">Days</th><th scope="col" class="gantt-time">'+timelineHeader()+'</th></tr></thead>'+
       '<tbody>'+summary('1.0','Auggie & Theo',false,summaryFamily)+'</tbody><tbody id="gantt-wbs-1-0">'+baseline.family.map(a=>activityRow(a,'1.0')).join('')+'</tbody>'+
