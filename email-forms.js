@@ -40,7 +40,7 @@ export function bindEmailForm(form, {prepare, success, afterSuccess}) {
       report(error.message);
       return;
     }
-    payload = Object.fromEntries(Object.entries(payload).filter(([, value]) => value));
+    payload = Object.fromEntries(Object.entries(payload).filter(([, value]) => value !== undefined && value !== null && value !== ''));
     state = 'sending';
     fields.disabled = true;
     form.setAttribute('aria-busy', 'true');

@@ -1,6 +1,6 @@
 import {mountMural,positionCrop} from './mural.js';
 import {mountDashboard} from './dashboard.js?v=signup-direct';
-import {bindEmailForm} from './email-forms.js?v=qc03-live1';
+import {bindEmailForm} from './email-forms.js?v=signup-junior';
 const siteBase='/project-up';
 const viewPath=path=>path.slice(siteBase.length).replace(/(?:\/index\.html|\.html|\/)$/g,'')||'/';
 const exhibitMural=mountMural(document.querySelector('[data-mural="exhibit"]'));
@@ -144,7 +144,7 @@ async function refresh(){
       const ids=[...new Set(requests.filter(id=>panels.some(p=>p.id===id&&open(p))))];
       if(!ids.length)throw Error('Choose at least one Open panel from the mural or the preference menus.');
       return {subject:'Project UP — Family Painting Sign-Up', name:fields.name, email:fields.email,
-        'Selected panels':ids.join(', '), 'Junior Painter Names':fields.junior,
+        'Selected panels':ids.join(', '), 'Junior Painter':fields.junior==='yes',
         'Comments, Concerns, or Unsolicited Opinions':fields.ideas};
     },
     success:'Your panel request was accepted for delivery to Ben. Panel assignments are subject to his confirmation.'
