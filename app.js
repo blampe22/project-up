@@ -1,5 +1,5 @@
 import {mountMural,positionCrop} from './mural.js';
-import {mountDashboard} from './dashboard.js';
+import {mountDashboard} from './dashboard.js?v=signup-direct';
 import {bindEmailForm} from './email-forms.js?v=qc03-live1';
 const siteBase='/project-up';
 const viewPath=path=>path.slice(siteBase.length).replace(/(?:\/index\.html|\.html|\/)$/g,'')||'/';

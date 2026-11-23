@@ -26,7 +26,7 @@ export function mountDashboard(host, panels) {
     if (panel.assignedPainter) detail.append(' · Painter: ' + panel.assignedPainter);
     if (panel.paintingStatus === 'Open') {
       const request = document.createElement('a');
-      request.href = 'register.html?panel=' + encodeURIComponent(panel.id) + '#registration';
+      request.href = 'register.html?panel=' + encodeURIComponent(panel.id) + '#painting-signup-title';
       request.textContent = 'Request this panel';
       request.setAttribute('aria-label','Request ' + panel.id + ' through Family Painting Sign-Up');
       detail.append(' ', request);
